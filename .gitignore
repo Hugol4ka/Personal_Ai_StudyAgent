@@ -1,0 +1,12 @@
+# Environnement virtuel
+.venv/
+venv/
+ENV/
+env/
+
+.env
+
+**/__pycache__/
+*.pyc
+
+output/study_guide.md
