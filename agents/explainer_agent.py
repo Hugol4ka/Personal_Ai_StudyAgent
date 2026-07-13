@@ -18,11 +18,5 @@ explainer_agent = LlmAgent(
     (une liste à puces de 3 à 6 concepts clés)
     ## Exemple
     (un exemple simple, 1 à 3 phrases)
-    ## Erreurs courantes
-    (une liste à puces de 3 à 6 erreurs courantes)
-    ## Commentaires de révision
-    (une liste à puces de 3 à 6 commentaires de révision)
-    ## Résumé final
-    (un résumé final de 2 à 4 phrases)
     OUBLIE AUCUNE SECTION que je t'ai demandée. Ne rajoutez aucune autre section, ni introduction, ni conclusion."""
 )
