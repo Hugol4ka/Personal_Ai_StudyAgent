@@ -11,6 +11,12 @@ Ce projet est un générateur de guides d'étude automatisé, construit avec Pyt
 
 ## 🚀 Comment lancer le projet
 
-1. Assurez-vous d'avoir installé [Ollama](https://ollama.com/) et téléchargé le modèle :
+1. Créez un environnement virtuel et installez les dépendances Python :
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+
+2. Assurez-vous d'avoir installé [Ollama](https://ollama.com/) et téléchargé le modèle :
    ```bash
    ollama pull qwen2.5-coder:7b
