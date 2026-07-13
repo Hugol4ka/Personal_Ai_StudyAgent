@@ -7,6 +7,8 @@ from google.genai import types
 import warnings
 
 from agents.explainer_agent import explainer_agent
+from tools.file_writer import save_markdown_file
+
 
 APP_NAME = "study_guide_generator"
 USER_ID = "local_user"
@@ -53,6 +55,9 @@ def main():
 
     result = asyncio.run(run_explainer(topic))
     print(result)
+
+    save_md = save_markdown_file(f"output/{topic.replace(' ', '_')}.md", result)
+    print(save_md)
 
 
 if __name__ == "__main__":
