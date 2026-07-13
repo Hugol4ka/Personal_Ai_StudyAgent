@@ -33,7 +33,7 @@ Ce projet est un générateur de guides d'étude automatisé, construit avec Pyt
     print(result)
 <img width="1077" height="845" alt="Capture d’écran 2026-07-13 à 13 52 38" src="https://github.com/user-attachments/assets/1a43bb14-436f-45b2-b6ea-babf15a708dd" />
 
-3. Avec argument:
+2. Avec argument:
    ```bash
    python main.py  "Websockets"
 <img width="1075" height="724" alt="Capture d’écran 2026-07-13 à 13 54 36" src="https://github.com/user-attachments/assets/b7c48307-7e3f-4688-97ae-17121e528518" />
