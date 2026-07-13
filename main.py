@@ -8,6 +8,7 @@ import warnings
 
 from agents.explainer_agent import explainer_agent
 from tools.file_writer import save_markdown_file
+from tools.validation import validate_required_sections
 
 
 APP_NAME = "study_guide_generator"
@@ -50,14 +51,27 @@ async def run_explainer(topic: str) -> str:
 
 
 def main():
-    topic = sys.argv[1] if len(sys.argv) > 1 else "Python decorators" 
-    print(f"--- Génération de l'explication pour : {topic} ---\n")
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
 
+    topic = sys.argv[1] if len(sys.argv) > 1 else "Python decorators" 
+    print(f"{CYAN}--- Génération de l'explication pour : {topic} ---{RESET}\n")
     result = asyncio.run(run_explainer(topic))
     print(result)
 
+    print(f"{CYAN}--- Validation des sections requises ---{RESET}")
+    validation = validate_required_sections(result)
+    if validation['missing_sections']:
+        print(f"{YELLOW}Sections manquantes : {', '.join(validation['missing_sections'])}{RESET}")
+    else:
+        print(f"{GREEN}Sections valide : {validation['is_valid']}{RESET}")
+
+    print(f"{CYAN}--- [TOOL] Sauvegarde du fichier ---{RESET}")
     save_md = save_markdown_file(f"output/{topic.replace(' ', '_')}.md", result)
-    print(save_md)
+    print(f"{GREEN}{save_md}{RESET}")
 
 
 if __name__ == "__main__":
