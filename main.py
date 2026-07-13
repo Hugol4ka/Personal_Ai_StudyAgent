@@ -10,18 +10,23 @@ from agents.explainer_agent import explainer_agent
 from tools.file_writer import save_markdown_file
 from tools.validation import validate_required_sections
 from agents.practise_designer_agent import practice_designer_agent
+from agents.reviewer_agent import reviewer_agent
 
 
 APP_NAME = "study_guide_generator"
 USER_ID = "local_user"
 SESSION_ID_EXPLAINER = "explainer_session"
 SESSION_ID_PRACTICE = "practice_session"
+SESSION_ID_REVIEWER = "reviewer_session"
 
 
 warnings.filterwarnings("ignore", message="Pydantic serializer warnings")
 
 
 async def run_multi_agent_pipeline(topic: str) -> str:
+
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
     session_service = InMemorySessionService()
     
     # Lancement de l'Explainer Agent
@@ -35,7 +40,7 @@ async def run_multi_agent_pipeline(topic: str) -> str:
         if event.is_final_response() and event.content and event.content.parts:
             explanation_response = event.content.parts[0].text
 
-    print("🤖 Explainer Agent a terminé sa partie.")
+    print(f"{YELLOW}🤖 Explainer Agent a terminé sa partie.{RESET}")
 
     # Lancement du Practice Designer Agent
     await session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID_PRACTICE)
@@ -50,10 +55,25 @@ async def run_multi_agent_pipeline(topic: str) -> str:
         if event.is_final_response() and event.content and event.content.parts:
             practice_response = event.content.parts[0].text
 
-    print("🤖 Practice Designer Agent a terminé sa partie.")
+    print(f"{YELLOW}🤖 Practice Designer Agent a terminé sa partie.{RESET}")
+
+    # Lancement du Reviewer Agent
+    await session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID_REVIEWER)
+    runner_reviewer = Runner(agent=reviewer_agent, app_name=APP_NAME, session_service=session_service)
+
+    # Transmission du sujet ET ce que les deux premiers agents ont écrit
+    context_for_reviewer = f"Sujet d'origine : {topic}\n\nExplication du cours :\n{explanation_response}\n\nExercice pratique :\n{practice_response}"
+    reviewer_message = types.Content(role="user", parts=[types.Part(text=context_for_reviewer)])
+
+    reviewer_response = ""
+    async for event in runner_reviewer.run_async(user_id=USER_ID, session_id=SESSION_ID_REVIEWER, new_message=reviewer_message):
+        if event.is_final_response() and event.content and event.content.parts:
+            reviewer_response = event.content.parts[0].text
+
+    print(f"{YELLOW}🤖 Reviewer Agent a terminé sa partie.{RESET}")
 
     # Fusion des résultats
-    full_guide = f"{explanation_response}\n\n{practice_response}"
+    full_guide = f"{explanation_response}\n\n{practice_response}\n\n{reviewer_response}"
     return full_guide
 
 
