@@ -1,18 +1,59 @@
-import os
-from dotenv import load_dotenv
-from litellm import completion
+import asyncio
+import sys
 
-load_dotenv()
+from google.adk.runners import Runner
+from google.adk.sessions import InMemorySessionService
+from google.genai import types
+import warnings
 
-model_name = os.getenv("MODEL_NAME")
-api_base = os.getenv("OLLAMA_API_BASE")
+from agents.explainer_agent import explainer_agent
 
-print(f"Using model: {model_name} with API base: {api_base}")
+APP_NAME = "study_guide_generator"
+USER_ID = "local_user"
+SESSION_ID = "explainer_session"
 
-response = completion(
-    model=model_name,
-    messages=[{"role": "user", "content": "Dis-moi 'L'environnement local fonctionne !' en trois mots."}],
-    api_base=api_base
-)
-print("\nSuccès ! Réponse du modele :")
-print(response.choices[0].message.content)
+
+
+warnings.filterwarnings("ignore", message="Pydantic serializer warnings")
+
+async def run_explainer(topic: str) -> str:
+    session_service = InMemorySessionService()
+    await session_service.create_session(
+        app_name=APP_NAME,
+        user_id=USER_ID,
+        session_id=SESSION_ID,
+    )
+
+    runner = Runner(
+        agent=explainer_agent,
+        app_name=APP_NAME,
+        session_service=session_service,
+    )
+
+    user_message = types.Content(
+        role="user",
+        parts=[types.Part(text=f"Topic: {topic}")],
+    )
+
+    final_response = ""
+    async for event in runner.run_async(
+        user_id=USER_ID,
+        session_id=SESSION_ID,
+        new_message=user_message,
+    ):
+        if event.is_final_response() and event.content and event.content.parts:
+            final_response = event.content.parts[0].text
+
+    return final_response
+
+
+def main():
+    topic = sys.argv[1] if len(sys.argv) > 1 else "Python decorators" 
+    print(f"--- Génération de l'explication pour : {topic} ---\n")
+
+    result = asyncio.run(run_explainer(topic))
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
