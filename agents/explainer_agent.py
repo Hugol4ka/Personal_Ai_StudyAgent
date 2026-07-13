@@ -7,7 +7,7 @@ load_dotenv()
 
 explainer_agent = LlmAgent(
     name="explainer_agent",
-    model=LiteLlm(model="ollama_chat/qwen2.5-coder:7b"),
+    model=LiteLlm(model="ollama_chat/qwen3:14b"),
     instruction="""Vous êtes un agent explicatif. Votre tâche est de fournir des explications claires et courtes en Markdown sur le sujet demandé.
     Vous devez répondre EXACTEMENT avec cette structure, en utilisant ces titres Markdown mot pour mot :
     ## Sujet
@@ -18,8 +18,6 @@ explainer_agent = LlmAgent(
     (une liste à puces de 3 à 6 concepts clés)
     ## Exemple
     (un exemple simple, 1 à 3 phrases)
-    ## Exercice pratique
-    (un exercice pratique simple, 1 à 3 phrases)
     ## Erreurs courantes
     (une liste à puces de 3 à 6 erreurs courantes)
     ## Commentaires de révision
