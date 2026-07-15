@@ -128,7 +128,6 @@ Le guide est clair dans ses bases mais manque de détails techniques et d'exempl
 ```
 
 ## Project Structure
-\`\`\`
 Personal_Ai_StudyAgent/
 ├── agents/
 │   ├── explainer_agent.py
@@ -138,11 +137,12 @@ Personal_Ai_StudyAgent/
 │   ├── file_writer.py
 │   └── validation.py
 ├── output/
+│   └── (fichiers .md générés)
 ├── .env.example
+├── .gitignore
 ├── requirements.txt
 ├── README.md
 └── main.py
-\`\`\`
 
 ## Agents
 
