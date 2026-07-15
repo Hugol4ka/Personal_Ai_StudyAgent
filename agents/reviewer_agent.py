@@ -5,9 +5,11 @@ from google.adk.models.lite_llm import LiteLlm
 
 load_dotenv()
 
+MODEL_NAME = os.getenv("REVIEWER_MODEL", "ollama_chat/qwen3:14b")
+
 reviewer_agent = LlmAgent(
     name="reviewer_agent",
-    model=LiteLlm(model="ollama_chat/qwen3:14b"),
+    model=LiteLlm(model=MODEL_NAME),
     instruction="""Vous êtes un agent réviseur. Examinez le projet de guide d'étude fourni.
 Votre rôle est d'analyser ce qui a été fait, de relever les informations manquantes
 ou les explications ambiguës, et de proposer des suggestions d'amélioration concrètes.

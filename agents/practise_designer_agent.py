@@ -5,9 +5,11 @@ from google.adk.models.lite_llm import LiteLlm
 
 load_dotenv()
 
+MODEL_NAME = os.getenv("PRACTICE_MODEL", "ollama_chat/qwen3:14b")
+
 practice_designer_agent = LlmAgent(
     name="practice_designer_agent",
-    model=LiteLlm(model="ollama_chat/qwen3:14b"),
+    model=LiteLlm(model=MODEL_NAME),
 instruction="""Tu es un concepteur d'exercices de programmation pour débutants.
     L'utilisateur va te fournir un Sujet ainsi que l'Explication générée par un autre agent.
     Ta tâche est de créer un court exercice (réalisable en 10 à 20 minutes) basé strictement sur cette explication,

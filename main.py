@@ -5,6 +5,7 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 import warnings
+from litellm.exceptions import APIConnectionError
 
 from agents.explainer_agent import explainer_agent
 from tools.file_writer import save_markdown_file
@@ -89,8 +90,13 @@ def main():
         sys.exit(1)
 
     print(f"{CYAN}--- Génération de l'explication pour : {topic} ---{RESET}\n")
-    result = asyncio.run(run_multi_agent_pipeline(topic))
-    print(result)
+    try:
+        result = asyncio.run(run_multi_agent_pipeline(topic))
+        print(result)
+    except APIConnectionError as e:
+        print(f"❌ Erreur lors de la génération : {e}")
+        print("💡 Vérifie qu'Ollama est bien lancé (commande : ollama serve) et que le modèle est disponible.")
+        sys.exit(1)
 
     print(f"{CYAN}--- Validation des sections requises ---{RESET}")
     validation = validate_required_sections(result)
