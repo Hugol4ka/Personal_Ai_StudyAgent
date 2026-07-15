@@ -73,7 +73,7 @@ async def run_multi_agent_pipeline(topic: str) -> str:
     print(f"{YELLOW}🤖 Reviewer Agent a terminé sa partie.{RESET}")
 
     # Fusion des résultats
-    full_guide = f"{explanation_response}\n\n{practice_response}\n\n{reviewer_response}"
+    full_guide = f"## Sujet\n{topic}\n\n{explanation_response}\n\n{practice_response}\n\n{reviewer_response}"
     return full_guide
 
 
@@ -83,7 +83,11 @@ def main():
     YELLOW = "\033[93m"
     RESET = "\033[0m"
 
-    topic = sys.argv[1] if len(sys.argv) > 1 else "Python decorators" 
+    topic = sys.argv[1] if len(sys.argv) > 1 else None
+    if not topic or not topic.strip():
+        print("❌ Erreur : Le sujet (topic) ne peut pas être vide.")
+        sys.exit(1)
+
     print(f"{CYAN}--- Génération de l'explication pour : {topic} ---{RESET}\n")
     result = asyncio.run(run_multi_agent_pipeline(topic))
     print(result)

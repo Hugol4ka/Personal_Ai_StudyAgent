@@ -10,12 +10,13 @@ required_sections = [
     ]
 
 def validate_required_sections(markdown: str) -> dict:
-    """Validate that the response contains the required sections in the correct order.
+    """Validate that the markdown content contains all required sections.
 
     Args:
-        markdown (str): The response string to validate.
+        markdown (str): The markdown content to validate.
     Returns:
-        dict: A dictionary containing the validation result and any missing sections.
+        dict: A dictionary containing whether the content is valid ("is_valid")
+            and a list of any missing sections ("missing_sections").
     """
     missing_sections = []
     for section in required_sections:
