@@ -128,6 +128,8 @@ Le guide est clair dans ses bases mais manque de détails techniques et d'exempl
 ```
 
 ## Project Structure
+
+```
 Personal_Ai_StudyAgent/
 ├── agents/
 │   ├── explainer_agent.py
@@ -143,6 +145,7 @@ Personal_Ai_StudyAgent/
 ├── requirements.txt
 ├── README.md
 └── main.py
+```
 
 ## Agents
 
@@ -273,6 +276,6 @@ Avec `qwen3:14b`, un caractère chinois (`糖`, résidu du terme anglais *"synta
 - **Logs verbeux d'ADK** : même lorsqu'une erreur est correctement interceptée par le `try/except` (par exemple `APIConnectionError` quand Ollama est arrêté), ADK affiche en interne une traceback complète dans la console avant que le message d'erreur personnalisé n'apparaisse. Ce n'est pas un bug du projet, mais un choix de logging interne de la librairie.
 - **Validation structurelle uniquement** : `validate_required_sections` vérifie la présence des titres attendus, pas la pertinence ou la qualité du contenu — un guide peut être "valide" structurellement tout en étant peu utile sur le fond.
 - **Pas de gestion de mémoire multi-tours** : chaque agent est appelé une seule fois par exécution ; le projet n'exploite pas la capacité de `Session` à conserver un historique de conversation.
-- **Dépendance au matériel local** : *MacBook Pro Puce M5 24Go RAM*
+- **Dépendance au matériel local** : *MacBook Pro puce M5, 24 Go RAM*.⎵⎵
   Le pipeline complet (3 appels LLM séquentiels) prend environ 2 minutes 30 sur ma machine. La quasi-totalité de ce temps est passée à attendre les réponses d'Ollama plutôt qu'à exécuter du code Python (moins de 1% de CPU côté script).
 - **Nommage du fichier de sortie** : le fichier est actuellement sauvegardé sous `output/{sujet}.md` (nom dynamique basé sur le sujet), et non `output/study_guide.md` comme un nom fixe pourrait le suggérer.
