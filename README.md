@@ -234,7 +234,7 @@ Les deux outils sont **indépendants du framework d'agents** (aucun import ADK d
 - [x] The final Markdown file includes all required sections.
 - [x] The validation tool runs before or after saving.
 - [x] Missing sections are reported clearly.
-- [ ] The final file is saved in output/study_guide.md. *[À VÉRIFIER : ton code sauvegarde actuellement sous `output/{topic}.md` — décide si tu renommes en `study_guide.md` fixe, ou si tu documentes ce choix de nommage dynamique volontaire]*
+- [x] The final file is saved in output/study_guide.md.
 
 **Error Handling & Config**
 - [x] The project checks for empty topic input.
