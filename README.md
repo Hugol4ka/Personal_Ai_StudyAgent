@@ -16,7 +16,6 @@ Le résultat est ensuite **validé** (vérification de la présence de toutes le
 - Python 3.12+
 - [Ollama](https://ollama.com/) installé et lancé en local
 - Modèles Ollama utilisés :
-  - `qwen2.5-coder:7b` — Explainer Agent
   - `qwen3:14b` — Practice Designer Agent et Reviewer Agent
 - Les dépendances Python listées dans `requirements.txt`
 
